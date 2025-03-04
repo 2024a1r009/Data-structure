@@ -1,0 +1,120 @@
+#include<Stdio.h>
+#include<stdlib.h>
+#define max_size  100  // preprocessor directive for constant 
+void insert(int  *list, int *size){
+    int pos, value;
+    printf("Enter Position :");
+    scanf("%d",&pos);
+    printf("Enter value : ");
+    scanf("%d",&value);
+    if(pos<0 || pos>*size)
+    printf("Invalid Position !!!!!\n");
+    /*
+    else if(pos == *size){
+        list[pos] = value;
+    //(*size);++
+    *size = *size +1;
+    printf("Element Insertes successfully !!!!!\n");
+    
+    }*/
+    else{
+        for(int i = *size; i>=pos;i--){
+            list[i]=list[i-1];
+        }
+        list[pos] = value;
+        *size = *size +1;
+        printf("Element Insertes successfully !!!!!\n");
+    }
+    }
+    void displaylist(int *list, int size){
+        int i;
+        printf("list elements are :  \n");
+        for(i = 0; i<size; i++){
+            printf("%d ", list[i]);
+        }
+        printf("\n");
+    }  
+    void delete( int *list , int *size){
+        int pos;
+        printf("Enter position = ");
+        scanf("%d",&pos);
+        pos--;
+        if(pos<0 || pos >=*size - 1) // pos = 4,size =4 as pos-- so pos=3
+        printf("Invalid position");
+        else if (pos== *size-1){
+        *size =*size-1 ;
+        printf("Element deleted\n");
+    }
+    else{
+        for( int i=0; i<*size -1;i++){
+if(i>=pos){
+    list[i]= list[i+1];
+}
+        }
+    }
+    *size =*size -1 ;
+    printf("Element deleted \n");}
+
+    void search( int *list, int size ){
+        int val ,i,flag=0;
+        printf("Enter searching element = ");
+        scanf("%d", &val);
+        for( i=0;i<size;i++){
+            if(val == list[i]){
+                flag=1;
+                break;
+            }
+        }
+        if( flag==1){
+            printf(" element found at index = %d\n ",i);
+        }
+        else{
+            printf("not found ");
+        }
+
+    }
+int main(){
+    int list[max_size], size, i;
+    printf("Enter list size :");
+    scanf("%d",&size);
+    printf("Enter Elements in List :");
+    for(i =0; i<size; i++){
+        scanf("%d",&list[i]);
+    }
+    //Menu driven program
+    while(1){
+        printf("1. Insertion\n");
+        printf("2. Deletion\n");
+        printf("3. Searching\n");
+        printf("4. Travesing\n");
+        printf("5. Exit\n");
+        int choice ;
+        printf("Enter choice : ");
+      
+        scanf("%d",&choice);
+        switch(choice){
+            case 1:
+            insert(list,&size);
+            displaylist(list,size);
+                 break;
+            case 2:
+            delete(list ,&size);
+            displaylist(list,size);
+                 break;
+            case 3:
+            search(list , size);
+                 break;
+            case 4:
+            displaylist(list,size);
+                 break;
+            case 5:
+            exit(0);
+                 break;
+            default:
+            printf("Invalid Choice : ");
+
+        }
+        system("pause");
+    }
+    return 0;
+}
