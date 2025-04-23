@@ -1,148 +1,246 @@
-#include <stdio.h>
+#include <stdio.h> //17-3-25 exp-7
 #include <stdlib.h>
-#define SIZE 100
-typedef struct priorityqueue
+typedef struct Node
 {
-    int element; // typedef ( typedef int santosh)
-    int priority;
-} Pqueue;
-Pqueue pq[SIZE];
-int front = -1, rear = -1;
-
-int isempty()
+    int data;
+    struct Node *next;
+} Node;
+Node *head = NULL;
+Node *createNode(int ele)
 {
-    return (front == -1) ? 1 : 0;
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = ele;
+    newNode->next = NULL;
+    return newNode;
 }
-int isfull()
+void insertNodeinbeg(int ele)
 {
-    return (rear == SIZE - 1) ? 1 : 0;
+    Node *newNode = createNode(ele);
+    newNode->next = head;
+    head = newNode;
+    printf("Node inserted !!!\n");
 }
-void enqueue(int data, int priority)
+void insertNodeatend(int ele)
 {
-   
-    if (isempty())
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = ele;
+    newNode->next = NULL;
+    if (head == NULL)
+        head = newNode;
+    else
     {
-        rear = rear + 1;
-        pq[rear].element = data;
-        pq[rear].priority = priority;
-        front = rear;
-    }
-    else{
-        int i;
-        for ( i=front;i<=rear;i++){
-            if(pq[i].priority<priority){
-                for( int j=rear;j>=i;j--){
-                    pq[j+1].element=pq[j].element;
-                    pq[j+1].priority=pq[j].priority;
-                    
-
-                }
-                pq[i].element=data;
-                pq[i].priority=priority;
-                rear++;
-                break;
-            }
-            }
-           if(i==(rear+1)){
-            rear=rear+1;
-            pq[rear].element=data;
-            pq[rear].priority=priority;
-           }
-        }
-    
-    printf("Element Inserted!!\n");
+      Node *temp = head;
+      while (temp->next != NULL)
+      {
+          temp = temp->next;
+      }
+      temp->next = newNode;
+      printf("Node inserted !!!!\n");
+  }
 }
-
-int dequeue()
+void insertatanyposition(int ele, int pos)
 {
-int data=pq[front].element;
-if(front==rear)
-front=rear=-1;
-else
-front++;
-return data;
-
+  if (head == NULL)
+      printf("list is empty!!!!\n");
+  else if (pos == 1)
+      insertNodeinbeg(ele);
+  else
+  {
+      Node *temp = head;
+      int i = 1;
+      while (i < pos - 1 && temp->next != NULL)
+      {
+          temp = temp->next;
+          i++;
+      }
+      if (temp->next != NULL && i > 1)
+      {
+          Node *newNode = createNode(ele);
+          newNode->next = temp->next;
+          temp->next = newNode;
+          printf("node inserted !!!\n");
+      }
+      else
+          printf("invalid postion !!!\n");
+  }
 }
-
-int peek()
+void deleteNodefrombeg()
 {
-return pq[front].element;
-}
-void display()
-{
-    printf("Elements of priority queue are : \n");
-    for( int i=front;i<=rear;i++){
-        printf("Element = %d, Priority = %d\n",pq[i].element,pq[i].priority);
-    }
-}
-
-int main()
-{
-    while (1)
+    if (head == NULL)
+        printf("list is empty!!!\n");
+    else
     {
-        printf("-----circular queue-----\n");
-        printf("1. Enqueue\n");
-        printf("2. Dequeue\n");
-        printf("3. Peek\n");
-        printf("4. Display\n");
-        printf("5. Exit\n");
-        int choice, p, data;
-        printf("Enter the choice = ");
-        scanf("%d", &choice);
-        switch (choice)
+        Node *temp = head;
+        head = head->next;
+        free(temp);
+        printf("node deleted !!!!\n");
+    }
+}
+void deleteNodefromend()
+{
+    if (head == NULL)
+        printf("list is empty!!!\n");
+    else
+    {
+        Node *t;
+        if (head->next == NULL)
         {
-        case 1:
-            if (isfull())
-            {
-                printf("Queue overflowed");
-            }
-            else
-            {
-                printf("Enter the element = ");
-                scanf("%d", &data);
-                printf("Enter the priority = ");
-                scanf("%d", &p);
-                enqueue(data, p);
-            }
-            break;
-
-        case 2:
-            if (isempty())
-            {
-                printf("Queue underflow");
-            }
-            else
-            {
-                printf("%d is deleted!!", dequeue());
-            }
-            break;
-
-        case 3:
-            if (isempty())
-            {
-                printf("Queue is empty");
-            }
-            else
-            {
-                printf("Element available in front of queue is %d\n", peek());
-            }
-            break;
-
-        case 4:
-            if (isempty())
-            {
-                printf("Queue is empty\n");
-            }
-            else
-                display();
-            break;
-
-        case 5:
-            exit(0);
-
-        default:
-            printf("Invalid choice!!!\n");
+            t = head;
+            head = NULL;
         }
-        printf("\n");
+        else
+        {
+          Node *temp=head;
+          while(temp->next->next!=NULL){
+              temp=temp->next;
+          }
+          t=temp->next;
+          temp->next=NULL;
+      }
+          free(t);
+          printf("Node Deleted!!!\n");
+      }
     }
-}
+  
+  void deleteNodefromanypos(int pos)
+  {
+      if (head == NULL)
+          printf("list is empty !!!!\n");
+      else if (pos == 1)
+          deleteNodefrombeg();
+      else
+      {
+          Node *temp = head;
+          int i = 1;
+          while (i < pos - 1 && temp->next != NULL)
+          {
+              i++;
+              temp = temp->next;
+          }
+          if (temp->next != NULL && i > 0)
+          {
+              Node *t = temp->next;
+              temp->next = temp->next->next;
+              free(t);
+              printf("node deleted !!!\n");
+          }
+          else
+              printf("invalid position !\n");
+      }
+  }
+  void search(int target)
+  {
+      if (head == NULL)
+          printf("list is empty !!!\n");
+      else
+      {
+          Node *temp = head;
+          while (temp != NULL)
+          {
+              if (temp->data == target)
+              {
+                  printf("FOUND !! \n");
+                  return;
+              }
+              temp = temp->next;
+          }
+          printf("not found !!!!\n");
+      }
+  }
+  void sort()
+  {
+      Node *last = NULL;
+      for (Node *i = head; i->next != NULL; i = i->next)
+      {
+          Node *j;
+          for (Node *j = head; j->next != last; j = j->next)
+          {
+              if (j->data > j->next->data)
+              {
+                  int temp = j->data;
+                  j->data = j->next->data;
+                  j->next->data = temp;
+              }
+          }
+          last = j;
+      }
+  }
+  void display()
+  {
+      if (head == NULL)
+          printf("list is empty!!!!\n");
+      else
+      {
+          Node *temp = head;
+          while (temp != NULL)
+          {
+              printf("%d      ", temp->data);
+              temp = temp->next;
+          }
+      }
+  }
+  int main()
+  {
+      while (1)
+      {
+          printf("--SINGLY LINKED LIST--\n");
+          printf("1.Insert node in beginning\n");
+          printf("2.Insert node at end\n");
+          printf("3.Insert node at  any position\n ");
+          printf("4.Delete node from beginning\n");
+          printf("5.Delete node from end\n");
+          printf("6.Delete node from any position\n");
+          printf("7.Search element in list\n");
+          printf("8.Sort elements\n");
+          printf("9.Display elements\n");
+          printf("10.Exit\n\n");
+          int choice, value, pos;
+          printf("Enter choice:");
+          scanf("%d", &choice);
+          switch (choice)
+          {
+          case 1:
+              printf("Enter the value: ");
+              scanf("%d", &value);
+            insertNodeinbeg(value);
+            break;
+        case 2:
+            printf("Enter the value: ");
+            scanf("%d", &value);
+            insertNodeatend(value);
+            break;
+        case 3:
+            printf("Enter the value: ");
+            scanf("%d", &value);
+            printf("enter position: ");
+            scanf("%d", &pos);
+            insertatanyposition(value, pos);
+            break;
+        case 4:
+            deleteNodefrombeg();
+            break;
+        case 5:
+            deleteNodefromend();
+            break;
+        case 6:
+            printf("Enter position: ");
+            scanf("%d", &pos);
+            break;
+        case 7:
+            printf("Enter the value: ");
+            scanf("%d", &value);
+            break;
+        case 8:
+            sort();
+            break;
+        case 9:
+            display();
+            break;
+            case 10:
+                exit(0);
+            default:
+                printf("Invalid choice !!!!\n"); 
+            }
+            printf("\n");}
+        
+    }
