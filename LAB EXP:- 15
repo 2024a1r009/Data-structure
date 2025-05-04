@@ -16,18 +16,18 @@ tnode *createNode(int element)
     node->left = node->right = NULL;
     return node;
 }
-struct TreeNode *insert(struct TreeNode *root, int value)
+tnode *insert(tnode *root, int value)
 {
     if (root == NULL)
         return createNode(value);
     else
     {
-        struct TreeNode *queue[100];
+        tnode *queue[100];
         int front = 0, rear = 0;
         queue[rear++] = root;
         while (front != rear) // front<rear
         {
-            struct TreeNode *temp = queue[front++];
+            tnode *temp = queue[front++];
             if (temp->left == NULL)
             {
                 temp->left = createNode(value);
@@ -51,12 +51,12 @@ struct TreeNode *insert(struct TreeNode *root, int value)
 
 void levelorder(tnode *root)
 {
-    struct TreeNode *queue[100];
+    tnode *queue[100];
     int front = 0, rear = 0;
     queue[rear++] = root;
     while (front != rear)
     {
-        struct TreeNode *temp = queue[front++];
+        tnode *temp = queue[front++];
         printf("%d ", temp->data);
         if (temp->left != NULL)
             queue[rear++] = temp->left;
@@ -90,19 +90,19 @@ void postorder(tnode *root)
     printf("%d ", root->data);
 }
 
-struct TreeNode *search(struct TreeNode *root, int target)
+tnode *search(tnode *root, int target)
 {
     if (root == NULL)
     {
         return NULL;
     }
     else{
-    struct TreeNode *queue[100];
+        tnode *queue[100];
     int front = 0, rear = 0;
     queue[rear++] = root;
     while (front != rear)
     {
-        struct TreeNode *temp = queue[front++];
+        tnode *temp = queue[front++];
         if (temp->data == target)
             return temp;
         if (temp->left != NULL)
@@ -113,7 +113,7 @@ struct TreeNode *search(struct TreeNode *root, int target)
     return NULL;
 }
 }
-struct TreeNode *FindDeepest(struct TreeNode *root)
+tnode *FindDeepest(tnode *root)
 {
     if (root == NULL)
     {
@@ -121,10 +121,10 @@ struct TreeNode *FindDeepest(struct TreeNode *root)
     }
     else
     {
-        struct TreeNode *queue[100];
+        tnode *queue[100];
         int front = 0, rear = 0;
         queue[rear++] = root;
-        struct TreeNode *temp;
+        tnode *temp;
         while (front != rear)
         {
             temp = queue[front++];
@@ -142,9 +142,9 @@ struct TreeNode *FindDeepest(struct TreeNode *root)
         return temp;
     }
 }
-void delete(struct TreeNode *root, int value)
+void delete(tnode *root, int value)
 {
-    struct TreeNode *temp = search(root, value);
+    tnode *temp = search(root, value);
     if (temp == NULL)
     {
         printf("Element not found!!!\n");
@@ -152,7 +152,7 @@ void delete(struct TreeNode *root, int value)
 
     else
     {
-        struct TreeNode *last = FindDeepest(root);
+        tnode *last = FindDeepest(root);
         temp->data = last->data;
         printf("Element deleted!!!\n");
     }
@@ -221,3 +221,4 @@ int main()
         }
     }
 }
+
