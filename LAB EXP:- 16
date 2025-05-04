@@ -167,7 +167,7 @@ int main()
         case 7:
             exit(0);
         default:
-            printf("Invalid cjoice !!!\n");
+            printf("Invalid choice !!!\n");
         }
         printf("\n");
     }
