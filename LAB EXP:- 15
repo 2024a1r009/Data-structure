@@ -1,4 +1,4 @@
-// Binary Tree implementation using linked list- 29 april
+// Binary Tree implementation using linked list
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -77,6 +77,8 @@ void inorder(tnode *root)
     if (root == NULL)
         return;
     inorder(root->left);
+    printf("%d ", root->data);
+    inorder(root->right);
 }
 
 void postorder(tnode *root)
@@ -90,6 +92,11 @@ void postorder(tnode *root)
 
 struct TreeNode *search(struct TreeNode *root, int target)
 {
+    if (root == NULL)
+    {
+        return NULL;
+    }
+    else{
     struct TreeNode *queue[100];
     int front = 0, rear = 0;
     queue[rear++] = root;
@@ -103,6 +110,8 @@ struct TreeNode *search(struct TreeNode *root, int target)
         if (temp->right != NULL)
             queue[rear++] = temp->right;
     }
+    return NULL;
+}
 }
 struct TreeNode *FindDeepest(struct TreeNode *root)
 {
